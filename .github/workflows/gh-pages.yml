@@ -14,18 +14,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Setup wasm-pack
-        uses: jetli/wasm-pack-action@v0.4.0
-        with:
-          version: 'latest'
-      - name: Build WASM
-        run: pwd && ls && wasm-pack build --target web
-
   deploy:
-    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -39,6 +28,12 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: '.'
+      - name: Setup wasm-pack
+        uses: jetli/wasm-pack-action@v0.4.0
+        with:
+          version: 'latest' 
+      - name: Build WASM
+        run: wasm-pack build --target web
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
