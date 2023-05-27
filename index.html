@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Brainfuck on Browsers</title>
+    <style>
+      input,
+      .monospace,
+      .memory,
+      .title {
+        font-family: monospace;
+      }
+
+      #program {
+        font-family: 'Courier New', monospace;
+      }
+
+      .title {
+        text-decoration: underline;
+      }
+
+      section {
+        width: 50%;
+        float: left;
+      }
+
+      .red {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <input id="run" type="button" value="Run" />
+      <input id="step-run" type="button" value="Step Run" />
+      <input id="next" type="button" value="Next" disabled />
+      <input id="terminate" type="button" value="Terminate" disabled />
+      <div id="editor" style="min-height: 300px; height: 600px"></div>
+    </section>
+    <section>
+      <div>
+        <span class="title">Output</span>
+        <div id="console" style="min-height: 200px"></div>
+      </div>
+      <div>
+        <span class="title">Program</span>
+        <div id="program"></div>
+      </div>
+      <div>
+        <span class="title">Memory</span>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+        <div>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+          <span class="memory">000</span> <span class="memory">000</span>
+        </div>
+      </div>
+    </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
+    <script>
+      const editor = ace.edit('editor');
+      const console = ace.edit('console');
+      console.setOptions({
+        readOnly: true,
+        highlightActiveLine: false,
+        showGutter: false,
+      });
+
+      const runBtn = document.getElementById('run');
+      const stepRunBtn = document.getElementById('step-run');
+      const nextBtn = document.getElementById('next');
+      const terminateBtn = document.getElementById('terminate');
+    </script>
+    <script type="module">
+      import init, { run, step_run } from './pkg/bf_on_browsers.js';
+
+      const enableElems = elems => {
+        elems.forEach(elem => {
+          elem.disabled = false;
+        });
+      };
+
+      const disableElems = elems => {
+        elems.forEach(elem => {
+          elem.disabled = true;
+        });
+      };
+
+      document.getElementById('run').addEventListener('click', async () => {
+        disableElems([runBtn, stepRunBtn]);
+        await init();
+        await run(editor.getValue());
+        enableElems([runBtn, stepRunBtn]);
+      });
+
+      document
+        .getElementById('step-run')
+        .addEventListener('click', async () => {
+          disableElems([runBtn, stepRunBtn]);
+          enableElems([nextBtn, terminateBtn]);
+          await init();
+          await step_run(editor.getValue());
+          enableElems([runBtn, stepRunBtn]);
+          disableElems([nextBtn, terminateBtn]);
+        });
+    </script>
+  </body>
+</html>
