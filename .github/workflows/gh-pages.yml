@@ -22,7 +22,7 @@ jobs:
         with:
           version: 'latest'
       - name: Build WASM
-        run: wasm-pack build --target web
+        run: pwd && wasm-pack build --target web
 
   deploy:
     needs: build
@@ -38,7 +38,6 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
           path: '.'
       - name: Deploy to GitHub Pages
         id: deployment
