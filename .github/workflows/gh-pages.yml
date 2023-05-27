@@ -22,7 +22,7 @@ jobs:
         with:
           version: 'latest'
       - name: Build WASM
-        run: pwd && wasm-pack build --target web
+        run: pwd && ls && wasm-pack build --target web
 
   deploy:
     needs: build
