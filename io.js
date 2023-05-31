@@ -6,16 +6,16 @@ export const detectButtonClickEvent = async id => {
   });
 };
 
-export const cleanConsole = () => {
-  console.setValue('');
+export const cleanOutput = () => {
+  output.setValue('');
 };
 
 export const outputChar = c => {
-  console.setValue(console.getValue() + c);
+  output.setValue(output.getValue() + c);
 };
 
 export const outputStr = str => {
-  console.setValue(str);
+  output.setValue(str);
 };
 
 export const showProgram = str => {
@@ -41,9 +41,23 @@ export const cleanMemoryMap = () => {
   });
 };
 
-export const writeMemoryMap = (idx, value) => {
+export const getMemDisplayRadix = () => {
+  return Array.from(
+    document.querySelectorAll(`input[name='mem-display']`)
+  ).find(elm => elm.checked).value;
+};
+
+export const writeMemoryMap = (idx, value, radix) => {
   const memoryMap = document.querySelectorAll('.memory');
-  memoryMap[idx].innerHTML = String(value).padStart(3, '0');
+  if (radix === 10) {
+    memoryMap[idx].innerHTML = String(value).padStart(3, '0');
+  } else if (radix === 16) {
+    memoryMap[idx].innerHTML = value
+      .toString(16)
+      .toUpperCase()
+      .padStart(2, '0');
+  }
+
   memoryMap.forEach(m => m.classList.remove('red'));
   memoryMap[idx].classList.add('red');
 };
