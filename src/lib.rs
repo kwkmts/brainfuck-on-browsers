@@ -56,6 +56,7 @@ pub fn run(input: &str, bit: u32, allow_ptr_overflow: bool) {
     let mut mem: [u8; 256] = [0; 256];
     let mut idx = 0;
     let mut output = String::new();
+    let mut read_count = 0;
     cleanOutput();
     cleanMemoryMap();
     showProgram(input);
@@ -135,6 +136,12 @@ pub fn run(input: &str, bit: u32, allow_ptr_overflow: bool) {
             _ => {
                 cur += 1;
             }
+        }
+
+        read_count += 1;
+        if read_count == 100_000_000 {
+            alert("Error: Too many instructions.");
+            break;
         }
     }
 
